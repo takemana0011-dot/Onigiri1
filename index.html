@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>一品帖</title><meta name="theme-color" content="#EDF0F4" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#1A1E26" media="(prefers-color-scheme: dark)"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="一品帖"><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet"><style id="css">
+:root{--paper:#EDF0F4;--faint:#E1E6ED;--sheet:#F9FAFC;--grid:#D3DAE4;--ink:#262B36;--muted:#6B7383;--ai:#34489A;--ai-soft:#DFE5F5;--on-ai:#FFFFFF;--shade:rgba(20,26,40,.38);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#1A1E26;--faint:#20252F;--sheet:#242935;--grid:#323A4A;--ink:#E7EAF0;--muted:#98A0B0;--ai:#93A6EA;--ai-soft:#2E3754;--on-ai:#1A1E26;--shade:rgba(0,0,0,.58)}}
+:root[data-theme="dark"]{--paper:#1A1E26;--faint:#20252F;--sheet:#242935;--grid:#323A4A;--ink:#E7EAF0;--muted:#98A0B0;--ai:#93A6EA;--ai-soft:#2E3754;--on-ai:#1A1E26;--shade:rgba(0,0,0,.58)}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100%;background-color:var(--paper);background-image:linear-gradient(var(--faint) 1px,transparent 1px),linear-gradient(90deg,var(--faint) 1px,transparent 1px);background-size:22px 22px;color:var(--ink);font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+.wrap{max-width:460px;margin:0 auto;padding:22px 14px 120px}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:0 4px}
+.mname{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;font-size:46px;line-height:1;letter-spacing:.06em;margin:0}
+.msub{font-size:13px;color:var(--muted);margin-top:10px}
+.nav{display:flex;gap:8px}
+.nav button{width:40px;height:40px;border-radius:50%;border:1px solid var(--grid);background:var(--sheet);font-size:17px;line-height:1}
+.recall{margin:20px 4px 14px;font-size:13px;color:var(--muted);min-height:1.6em}
+.recall b{font-family:"Shippori Mincho","Hiragino Mincho ProN",serif;font-weight:500;font-size:17px;color:var(--ink);margin-left:6px}
+.cal{background:var(--sheet);border-radius:20px;padding:10px 6px 12px;border:1px solid var(--grid)}
+.dow,.days{display:grid;grid-template-columns:repeat(7,1fr)}
+.dow{text-align:center;font-size:11px;color:var(--muted);padding:2px 0 6px}
+.days{gap:2px}
+.day{position:relative;aspect-ratio:1/1.18;border:0;background:none;padding:0;border-radius:10px}
+.day:not(:disabled):active{background:var(--ai-soft)}
+.day .n{position:absolute;top:4px;left:5px;font-size:11px;color:var(--muted);z-index:2}
+.day.today .n{color:var(--on-ai);background:var(--ai);border-radius:9px;padding:1px 5px;left:2px;font-weight:700}
+.day:disabled{opacity:.35;cursor:default}
+.stk{position:absolute;transform:rotate(var(--r))}
+.stk.new{animation:slap .55s cubic-bezier(.2,1.5,.4,1)}
+@keyframes slap{0%{transform:scale(1.9) rotate(var(--r));opacity:0}100%{transform:scale(1) rotate(var(--r));opacity:1}}
+svg.s{display:block;width:100%;height:auto;filter:drop-shadow(1.6px 0 0 #fff) drop-shadow(-1.6px 0 0 #fff) drop-shadow(0 1.6px 0 #fff) drop-shadow(0 -1.6px 0 #fff) drop-shadow(0 1.5px 1.5px rgba(0,0,0,.22))}
+.fab{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));border:0;border-radius:999px;background:var(--ai);color:var(--on-ai);padding:15px 28px;font-weight:700;font-size:16px;box-shadow:0 6px 18px rgba(30,40,80,.25);white-space:nowrap}
+.scrim{position:fixed;inset:0;background:var(--shade);z-index:10}
+.sheet{position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:460px;max-height:92%;overflow-y:auto;background:var(--sheet);border-radius:24px 24px 0 0;padding:10px 18px calc(20px + env(safe-area-inset-bottom,0px));z-index:11}
+.grab{width:40px;height:4px;border-radius:2px;background:var(--grid);margin:0 auto 12px}
+.sh-date{font-size:14px;color:var(--muted);margin-bottom:12px}
+.picks{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.pick{border:0;background:none;border-radius:14px;padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.pick svg.s{width:82%}
+.pick span{font-size:10px;white-space:nowrap;color:var(--muted)}
+.pick[aria-pressed="true"]{background:var(--ai-soft);box-shadow:inset 0 0 0 2px var(--ai)}
+.pick[aria-pressed="true"] span{color:var(--ink);font-weight:700}
+.mei-l{display:block;margin:18px 0 6px;font-size:12px;color:var(--muted)}
+.mei{width:100%;border:0;border-bottom:1.5px solid var(--grid);background:none;color:var(--ink);font-family:"Shippori Mincho","Hiragino Mincho ProN",serif;font-size:21px;padding:6px 2px 8px;border-radius:0}
+.mei::placeholder{color:var(--muted);opacity:.55}
+.mei:focus{outline:none;border-bottom-color:var(--ai)}
+.hint{font-size:12px;color:var(--muted);margin:8px 2px 16px}
+.go{width:100%;border:0;border-radius:14px;background:var(--ai);color:var(--on-ai);font-weight:700;font-size:16px;padding:14px}
+.go:disabled{opacity:.35;cursor:default}
+.card{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,420px);max-height:86%;overflow:auto;background:var(--sheet);border-radius:24px;padding:18px 16px 16px;z-index:11}
+.ents{display:flex;gap:18px;overflow-x:auto;padding:6px 4px 10px;scroll-snap-type:x mandatory}
+.ent{flex:0 0 auto;min-width:100%;display:flex;align-items:flex-start;justify-content:center;gap:22px;scroll-snap-align:center;position:relative;padding-bottom:36px}
+.ents.multi .ent{min-width:88%}
+.big{width:128px;margin-top:10px;transform:rotate(var(--r))}
+.v{writing-mode:vertical-rl;font-family:"Shippori Mincho","Hiragino Mincho ProN",serif;font-size:24px;letter-spacing:.14em;line-height:1.5;max-height:230px;min-height:120px}
+.v .nomei{font-size:14px;color:var(--muted);letter-spacing:.1em}
+.peel{position:absolute;bottom:0;left:50%;transform:translateX(-50%);border:0;background:none;font-size:12px;color:var(--muted);padding:6px 10px;text-decoration:underline;text-underline-offset:3px}
+.peel.armed{color:#C0392B;text-decoration:none;font-weight:700}
+.card-foot{display:flex;gap:10px;margin-top:6px}
+.card-foot .ghost{flex:1;border:1px solid var(--grid);background:none;border-radius:14px;padding:12px}
+.card-foot .go{flex:1.4;padding:12px;font-size:15px}
+.nav .sum{width:auto;padding:0 14px;border-radius:999px;font-size:13px;font-weight:700}
+.price-row,.pe{display:flex;align-items:baseline;gap:6px;border-bottom:1.5px solid var(--grid)}
+.price-row:focus-within{border-bottom-color:var(--ai)}
+.yen{font-size:18px;color:var(--muted)}
+.price{flex:1;min-width:0;border:0;background:none;color:var(--ink);font-family:"Shippori Mincho","Hiragino Mincho ProN",serif;font-size:21px;padding:6px 2px 8px}
+.price:focus{outline:none}
+.price::placeholder{color:var(--muted);opacity:.55}
+.col{display:flex;flex-direction:column;align-items:center;gap:10px}
+.pr{border:0;background:var(--ai-soft);color:var(--ink);border-radius:999px;padding:5px 14px;font-family:"Shippori Mincho","Hiragino Mincho ProN",serif;font-size:17px}
+.pr.none{font-family:inherit;font-size:12px;color:var(--muted);background:none;text-decoration:underline;text-underline-offset:3px}
+.pe{width:140px;border-bottom-color:var(--ai)}
+.price.sm{font-size:18px;padding:4px 0;width:60px}
+.go.mini{width:auto;padding:6px 10px;font-size:12px;border-radius:10px}
+.seg{display:flex;background:var(--paper);border-radius:12px;padding:3px;gap:3px;margin-bottom:14px}
+.seg button{flex:1;border:0;background:none;border-radius:10px;padding:9px;font-weight:700;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--sheet);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.per{display:flex;align-items:center;justify-content:space-between;font-size:14px;color:var(--muted)}
+.per button{width:36px;height:36px;border-radius:50%;border:1px solid var(--grid);background:none;font-size:16px}
+.tot{display:flex;align-items:baseline;justify-content:center;gap:12px;margin:18px 0 6px}
+.tot-n{font-family:"Shippori Mincho","Hiragino Mincho ProN",serif;font-weight:700;font-size:42px;letter-spacing:.02em}
+.tot-c{font-size:14px;color:var(--muted)}
+.hint.center{text-align:center;margin-top:0}
+.rows{display:flex;flex-direction:column;gap:12px;margin:18px 0 20px}
+.row{display:flex;align-items:center;gap:12px}
+.ri{width:40px;flex:0 0 40px}
+.rb{flex:1;min-width:0}
+.rt{display:flex;justify-content:space-between;font-size:14px;margin-bottom:5px}
+.rv{color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:4px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--ai)}
+.empty{text-align:center;color:var(--muted);font-size:14px;margin:28px 0}
+.ghost.wide{width:100%;border:1px solid var(--grid);background:none;border-radius:14px;padding:12px}
+.filebtn{display:block;text-align:center;margin:10px 0;cursor:pointer;font-size:15px}
+.msg{text-align:center;font-size:13px;color:var(--ai);margin:0 0 10px}
+.sheet .go+.filebtn{margin-top:10px}
+@media (prefers-reduced-motion:reduce){.stk.new{animation:none}}
+</style></head><body><div id="root"></div><script id="state" type="application/json">{"v":2,"entries":[{"id":"muffb5fuljy6","date":"2026-09-24","s":"onigiri","mei":"銀シャリ明太","t":1790247787338,"p":180}]}</script><script id="app">
+(function(){
+const KEY='ichihin-v1';
+const WA=['睦月','如月','弥生','卯月','皐月','水無月','文月','葉月','長月','神無月','霜月','師走'];
+const DOW=['日','月','火','水','木','金','土'];
+const O='stroke="#2B2F3A" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"';
+const STK={
+onigiri:{n:'おにぎり',d:`<path d="M32 8c3.2 0 5.3 2.2 7 5.2l14.2 24.6c3.2 5.6.6 12.8-6.2 13.2H17c-6.8-.4-9.4-7.6-6.2-13.2L25 13.2C26.7 10.2 28.8 8 32 8z" fill="#FFFFFF" ${O}/><path d="M22 36h20v15H22z" fill="#253A33" ${O}/><circle cx="26" cy="25" r="1.2" fill="#E9A0A0"/><circle cx="38" cy="22" r="1.2" fill="#E9A0A0"/>`},
+pudding:{n:'プリン',d:`<ellipse cx="32" cy="51" rx="25" ry="6" fill="#E6EDF6" ${O}/><path d="M17 48l5-26c6-4 14-4 20 0l5 26c-9 4-21 4-30 0z" fill="#F5CA5E" ${O}/><path d="M22 22c6-4 14-4 20 0l-1.4 8c-3-2.4-6-2-8.6 1.2-2.6-3.2-5.6-3.6-8.6-1.2z" fill="#9A5324" ${O}/><path d="M22 38l1.5-8" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".8"/>`},
+ice:{n:'アイス',d:`<path d="M21 32l11 27 11-27z" fill="#DDA25E" ${O}/><path d="M25 38l10 10M29 34l11 11M24 42l6-6M28 48l9-9" stroke="#B87A35" stroke-width="1.6" stroke-linecap="round"/><path d="M17 33c-1-11 6-19 15-19s16 8 15 19c-2.6 1.4-4.6-.6-7 .6-2.6 1.4-4.8-.4-7.4.4-2.6.8-4.6-.8-7.4.2-2.8.8-5.2-.2-8.2-1.2z" fill="#F6A9C1" ${O}/><path d="M24 22c1.5-2.5 3.5-3.8 6-4.2" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".85"/>`},
+coffee:{n:'コーヒー',d:`<path d="M27 13c-2.6-2.6.4-4.6-1-7M36 13c-2.6-2.6.4-4.6-1-7" fill="none" ${O}/><path d="M17 24h30l-3.2 28a4 4 0 01-4 3.4H24.2a4 4 0 01-4-3.4z" fill="#FFFFFF" ${O}/><rect x="14" y="17" width="36" height="8" rx="3.5" fill="#EFE7DB" ${O}/><path d="M19 33h26l-1.3 12H20.3z" fill="#B97A4A" ${O}/>`},
+karaage:{n:'からあげ',d:`<path d="M15 31c-1.6-6 2.6-11 8.4-11 3-3.4 9-2.6 10.4 2.4 3.6 2.4 3 8-.6 10.2-3 4-10 4.2-13.4 2-3 .8-4.4-1.2-4.8-3.6z" fill="#C9772B" ${O}/><path d="M31 25c.6-6 7-9.6 12-7.4 5.2-.2 8.6 4.8 6.6 9.2 2 4.2-1.2 9.2-6.4 9-4 2.2-9.4.2-10.4-3.2-3-1-4-5-1.8-7.6z" fill="#B8651F" ${O}/><path d="M21 36c-.4-5.4 5-8.6 10.4-7.4 4.2-2.2 9.6 1 9.4 5.4 3.2 3 .2 8.4-4.4 8.4H26c-3.4-.6-5.4-3.2-5-6.4z" fill="#CF8132" ${O}/><circle cx="21" cy="26" r="1.2" fill="#EDB36A"/><circle cx="40" cy="24" r="1.2" fill="#EDB36A"/><circle cx="30" cy="34" r="1.2" fill="#EDB36A"/><circle cx="36" cy="33" r="1" fill="#EDB36A"/><path d="M13 38h38l-4 20a2 2 0 01-2 1.6H19a2 2 0 01-2-1.6z" fill="#E8D3A8" ${O}/><path d="M15.6 46h32.8" stroke="#B8914E" stroke-width="1.8"/>`},
+choco:{n:'チョコ',d:`<rect x="15" y="9" width="34" height="47" rx="3" fill="#6A3B2A" ${O}/><path d="M26.5 10v24M37.5 10v24M16 21.5h32" stroke="#4E2A1C" stroke-width="1.8"/><path d="M15 34h34v19a3 3 0 01-3 3H18a3 3 0 01-3-3z" fill="#34489A" ${O}/><path d="M20 42h24M20 47h14" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".85"/>`},
+gummy:{n:'グミ',d:`<g fill="#2B2F3A" stroke="#2B2F3A" stroke-width="4.4" stroke-linejoin="round"><circle cx="21" cy="14" r="5"/><circle cx="43" cy="14" r="5"/><circle cx="32" cy="21" r="11"/><ellipse cx="32" cy="42" rx="13" ry="14"/><circle cx="18" cy="35" r="5.5"/><circle cx="46" cy="35" r="5.5"/><circle cx="23" cy="54" r="6.5"/><circle cx="41" cy="54" r="6.5"/></g><g fill="#F0617A"><circle cx="21" cy="14" r="5"/><circle cx="43" cy="14" r="5"/><circle cx="32" cy="21" r="11"/><ellipse cx="32" cy="42" rx="13" ry="14"/><circle cx="18" cy="35" r="5.5"/><circle cx="46" cy="35" r="5.5"/><circle cx="23" cy="54" r="6.5"/><circle cx="41" cy="54" r="6.5"/></g><circle cx="28" cy="20" r="1.6" fill="#8E2238"/><circle cx="36" cy="20" r="1.6" fill="#8E2238"/><ellipse cx="32" cy="25" rx="2.4" ry="1.6" fill="#8E2238"/><path d="M24 36c1-3.4 3-5.6 6-6.4M24.5 14.5c1.4-2 3.2-3 5.2-3.2" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".8"/><ellipse cx="32" cy="43" rx="6" ry="7" fill="#F68A9C"/>`},
+drink:{n:'ドリンク',d:`<path d="M26 12h12v4c5 3 7 7 7 12v25a4 4 0 01-4 4H23a4 4 0 01-4-4V28c0-5 2-9 7-12z" fill="#8FD0EA" ${O}/><rect x="25.5" y="5" width="13" height="8" rx="2" fill="#E4574A" ${O}/><rect x="19" y="32" width="26" height="13" fill="#FFFFFF" ${O}/><circle cx="32" cy="38.5" r="3.4" fill="#F2B84B"/>`},
+cake:{n:'ケーキ',d:`<path d="M9 34l38-14 8 6v24H9z" fill="#FFF7EC" ${O}/><path d="M9 42h46" stroke="#F07A8A" stroke-width="4"/><path d="M9 34l38-14 8 6-46 8z" fill="#FFFFFF" ${O}/><path d="M9 34v16M55 26v24" stroke="#2B2F3A" stroke-width="2.2"/><path d="M40 12c3.6-2.8 8.4-1.6 8.8 3 .4 4.6-4 8.4-7.6 9.4-3-2.6-4.6-9.4-1.2-12.4z" fill="#E5384F" ${O}/><path d="M42 11c1-2.4 3-3.4 5.2-3" fill="none" stroke="#5BA35B" stroke-width="2.6" stroke-linecap="round"/>`},
+nikuman:{n:'肉まん',d:`<ellipse cx="32" cy="50" rx="24" ry="6" fill="#E9DCC3" ${O}/><path d="M9 47c0-17 9-29 23-31 14 2 23 14 23 31-14 5-32 5-46 0z" fill="#FFFFFF" ${O}/><path d="M32 16c-3 3-4 6-3 9M32 16c3 3 4 6 3 9M32 16c-6 2-9 5-9 8M32 16c6 2 9 5 9 8" fill="none" stroke="#2B2F3A" stroke-width="1.6" stroke-linecap="round"/><path d="M16 40c1-5 3-8 6-10" stroke="#E6E6E6" stroke-width="2.6" stroke-linecap="round" fill="none"/>`}
+};
+const ORDER=Object.keys(STK);
+const svg=k=>`<svg class="s" viewBox="0 0 64 64" aria-hidden="true">${(STK[k]||STK.onigiri).d}</svg>`;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const fmt=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const todayStr=()=>fmt(new Date());
+const label=ds=>{const [y,m,d]=ds.split('-').map(Number);return m+'月'+d+'日（'+DOW[new Date(y,m-1,d).getDay()]+'）';};
+const rot=id=>{let h=0;for(const c of String(id))h=(h*31+c.charCodeAt(0))|0;return (Math.abs(h)%15)-7;};
+
+function load(){
+  let emb={v:0,entries:[]},ls=null;
+  try{emb=JSON.parse(document.getElementById('state').textContent)||emb;}catch(e){}
+  try{ls=JSON.parse(localStorage.getItem(KEY));}catch(e){}
+  const pick=(ls&&Array.isArray(ls.entries))?ls:emb;
+  if(!Array.isArray(pick.entries))pick.entries=[];
+  pick.v=pick.v||0;return pick;
+}
+let state=load();
+
+function persist(){
+  try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){alert('保存できませんでした。ブラウザの容量や設定を確認してください。');}
+}
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
+if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(()=>{});});}
+function exportData(){
+  const d=new Date(),name='ichihin-backup-'+fmt(d)+'.json';
+  const blob=new Blob([JSON.stringify(state,null,1)],{type:'application/json'});
+  const file=new File([blob],name,{type:'application/json'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file],title:'一品帖バックアップ'}).catch(()=>{});return;}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);
+}
+function importData(file){
+  const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||!Array.isArray(d.entries))throw 0;
+    const ids=new Set(state.entries.map(e=>e.id));let n=0;
+    d.entries.forEach(e=>{if(e&&e.id&&e.date&&e.s&&!ids.has(e.id)){state.entries.push({id:String(e.id),date:String(e.date),s:String(e.s),mei:String(e.mei||'').slice(0,30),p:e.p>0?Math.round(e.p):null,t:Number(e.t)||Date.now()});n++;}});
+    state.v=Math.max(state.v,d.v||0)+1;persist();ui.msg=n+'件を読み込みました';render();
+  }catch(err){ui.msg='読み込めないファイルでした';render();}};
+  r.readAsText(file);
+}
+
+const now=new Date();
+let vy=now.getFullYear(),vm=now.getMonth();
+let ui={msg:'',mode:null,date:null,pick:null,mei:'',price:'',justAdded:null,armed:null,span:'week',anchor:null,editp:null,ep:''};
+const root=document.getElementById('root');
+const byDate=ds=>state.entries.filter(e=>e.date===ds).sort((a,b)=>a.t-b.t);
+const LAYOUT={1:[[70,15,20]],2:[[56,2,22],[56,42,38]],3:[[48,2,20],[48,50,24],[48,26,48]]};
+const yen=n=>'¥'+Number(n||0).toLocaleString('ja-JP');
+const digits=v=>String(v).replace(/[０-９]/g,c=>String.fromCharCode(c.charCodeAt(0)-65248)).replace(/[^0-9]/g,'').slice(0,6);
+const parseD=ds=>{const [y,m,d]=ds.split('-').map(Number);return new Date(y,m-1,d);};
+const lastPrice=k=>{const es=state.entries.filter(e=>e.s===k&&e.p).sort((a,b)=>b.t-a.t);return es.length?String(es[0].p):'';};
+
+function stickersFor(es){
+  const n=Math.min(es.length,3),L=LAYOUT[n]||[];
+  return es.slice(-3).map((e,i)=>{const [w,l,t]=L[i];
+    return `<span class="stk${ui.justAdded===e.id?' new':''}" style="width:${w}%;left:${l}%;top:${t}%;--r:${rot(e.id)}deg;z-index:${i+1}">${svg(e.s)}</span>`;}).join('');
+}
+function period(){
+  const a=parseD(ui.anchor);
+  if(ui.span==='week'){const s=new Date(a);s.setDate(a.getDate()-a.getDay());const e=new Date(s);e.setDate(s.getDate()+6);
+    const lb=(s.getMonth()+1)+'月'+s.getDate()+'日〜'+(e.getMonth()===s.getMonth()?'':(e.getMonth()+1)+'月')+e.getDate()+'日';
+    return {s:fmt(s),e:fmt(e),label:lb};}
+  const s=new Date(a.getFullYear(),a.getMonth(),1),e=new Date(a.getFullYear(),a.getMonth()+1,0);
+  return {s:fmt(s),e:fmt(e),label:a.getFullYear()+'年'+(a.getMonth()+1)+'月'};
+}
+function statsHTML(){
+  const P=period(),es=state.entries.filter(e=>e.date>=P.s&&e.date<=P.e);
+  const total=es.reduce((x,e)=>x+(e.p||0),0),unp=es.filter(e=>!e.p).length;
+  const g={};es.forEach(e=>{g[e.s]=g[e.s]||{c:0,sum:0};g[e.s].c++;g[e.s].sum+=e.p||0;});
+  const ks=Object.keys(g).sort((a,b)=>g[b].sum-g[a].sum||g[b].c-g[a].c);
+  const max=Math.max(1,...ks.map(k=>g[k].sum)),maxc=Math.max(1,...ks.map(k=>g[k].c));
+  const rows=ks.map(k=>{const w=total?g[k].sum/max*100:g[k].c/maxc*100;
+    return `<div class="row"><span class="ri">${svg(k)}</span><div class="rb"><div class="rt"><span>${(STK[k]||{n:k}).n}</span><span class="rv">${g[k].c}回　${yen(g[k].sum)}</span></div><div class="bar"><i style="width:${Math.max(4,w)}%"></i></div></div></div>`;}).join('');
+  return `<div class="scrim" data-act="close"></div><div class="sheet" role="dialog" aria-modal="true" aria-label="集計"><div class="grab"></div><div class="seg"><button data-span="week" aria-pressed="${ui.span==='week'}">週</button><button data-span="month" aria-pressed="${ui.span==='month'}">月</button></div><div class="per"><button data-shift="-1" aria-label="前へ">‹</button><span>${P.label}</span><button data-shift="1" aria-label="次へ">›</button></div><div class="tot"><span class="tot-n">${yen(total)}</span><span class="tot-c">${es.length}回</span></div>${unp?`<p class="hint center">値段なし ${unp}回</p>`:''}${es.length?`<div class="rows">${rows}</div>`:'<p class="empty">この期間のシールはまだありません</p>'}<button class="ghost wide" data-act="close">閉じる</button></div>`;
+}
+
+function render(){
+  const t=todayStr();
+  const first=new Date(vy,vm,1).getDay(),dim=new Date(vy,vm+1,0).getDate();
+  let cells='';
+  for(let i=0;i<first;i++)cells+='<div></div>';
+  for(let d=1;d<=dim;d++){
+    const ds=vy+'-'+pad(vm+1)+'-'+pad(d),es=byDate(ds),fut=ds>t;
+    cells+=`<button class="day${ds===t?' today':''}" data-date="${ds}" ${fut?'disabled':''} aria-label="${vm+1}月${d}日${es.length?'、シールあり':''}"><span class="n">${d}</span>${stickersFor(es)}</button>`;
+  }
+  const last=state.entries.filter(e=>e.mei).sort((a,b)=>a.date===b.date?b.t-a.t:(a.date<b.date?1:-1))[0];
+  const recall=last?`この前の一品<b>${esc(last.mei)}</b>`:'食べたら、その日にシールを一枚';
+  let ov='';
+  if(ui.mode==='add'){
+    ov=`<div class="scrim" data-act="close"></div><div class="sheet" role="dialog" aria-modal="true" aria-label="シールを貼る"><div class="grab"></div><div class="sh-date">${label(ui.date)}</div><div class="picks">${ORDER.map(k=>`<button class="pick" data-pick="${k}" aria-pressed="${ui.pick===k}">${svg(k)}<span>${STK[k].n}</span></button>`).join('')}</div><label class="mei-l" for="mei">銘</label><input id="mei" class="mei" maxlength="30" autocomplete="off" placeholder="夕立のあとのプリン" value="${esc(ui.mei)}"><p class="hint">味や、そのときの気分に名前をひとつ</p><label class="mei-l" for="price">値段</label><div class="price-row"><span class="yen">¥</span><input id="price" class="price" inputmode="numeric" autocomplete="off" placeholder="0" value="${esc(ui.price)}"></div><p class="hint">シールを選ぶと、前回の値段が入ります</p><button class="go" data-act="save" ${ui.pick?'':'disabled'}>貼る</button></div>`;
+  }else if(ui.mode==='detail'){
+    const es=byDate(ui.date),fut=ui.date>t;
+    ov=`<div class="scrim" data-act="close"></div><div class="card" role="dialog" aria-modal="true" aria-label="${label(ui.date)}"><div class="sh-date">${label(ui.date)}</div><div class="ents${es.length>1?' multi':''}">${es.map(e=>`<div class="ent"><div class="col"><div class="big" style="--r:${rot(e.id)}deg">${svg(e.s)}</div>${ui.editp===e.id?`<div class="pe"><span class="yen">¥</span><input id="ep" class="price sm" inputmode="numeric" value="${esc(ui.ep)}"><button class="go mini" data-savep="${e.id}">保存</button></div>`:`<button class="pr${e.p?'':' none'}" data-editp="${e.id}">${e.p?yen(e.p):'値段を入れる'}</button>`}</div><div class="v">${e.mei?esc(e.mei):'<span class="nomei">銘なし</span>'}</div><button class="peel${ui.armed===e.id?' armed':''}" data-peel="${e.id}">${ui.armed===e.id?'もう一度押すとはがします':'はがす'}</button></div>`).join('')}</div><div class="card-foot"><button class="ghost" data-act="close">閉じる</button>${fut?'':'<button class="go" data-act="addhere">この日にもう一枚</button>'}</div></div>`;
+  }else if(ui.mode==='stats'){ov=statsHTML();}
+  else if(ui.mode==='menu'){
+    ov=`<div class="scrim" data-act="close"></div><div class="sheet" role="dialog" aria-modal="true" aria-label="バックアップ"><div class="grab"></div><div class="sh-date">バックアップ</div><p class="hint">記録はこの端末のブラウザに保存されています。機種変更やもしもの時のために、ときどきファイルに書き出しておくと安心です。</p><button class="go" data-act="export">バックアップを保存</button><label class="ghost wide filebtn">バックアップを読み込む<input type="file" id="imp" accept="application/json,.json" hidden></label>${ui.msg?`<p class="msg">${esc(ui.msg)}</p>`:''}<button class="ghost wide" data-act="close">閉じる</button></div>`;
+  }
+  root.innerHTML=`<div class="wrap"><header><div><h1 class="mname">${WA[vm]}</h1><div class="msub">${vy}年${vm+1}月</div></div><div class="nav"><button class="sum" data-act="stats">集計</button><button data-act="menu" aria-label="バックアップ">⋯</button><button data-nav="-1" aria-label="前の月">‹</button><button data-nav="1" aria-label="次の月">›</button></div></header><p class="recall">${recall}</p><div class="cal"><div class="dow">${DOW.map(x=>`<span>${x}</span>`).join('')}</div><div class="days">${cells}</div></div></div>${ui.mode?'':'<button class="fab" data-act="today">今日の一品を貼る</button>'}${ov}`;
+  if(ui.justAdded)setTimeout(()=>{ui.justAdded=null;},700);
+  if(ui.mode==='detail'&&ui.editp){const i=document.getElementById('ep');if(i){i.focus();}}
+}
+
+function openAdd(ds){ui={...ui,mode:'add',date:ds,pick:null,mei:'',price:'',armed:null,editp:null};render();}
+root.addEventListener('click',e=>{
+  const el=e.target.closest('[data-nav],[data-date],[data-pick],[data-act],[data-peel],[data-span],[data-shift],[data-editp],[data-savep]');
+  if(!el)return;
+  if(el.dataset.nav){vm+=Number(el.dataset.nav);if(vm<0){vm=11;vy--;}if(vm>11){vm=0;vy++;}render();return;}
+  if(el.dataset.date){const ds=el.dataset.date;if(byDate(ds).length){ui={...ui,mode:'detail',date:ds,armed:null,editp:null};render();}else openAdd(ds);return;}
+  if(el.dataset.pick){ui.pick=el.dataset.pick;root.querySelectorAll('.pick').forEach(b=>b.setAttribute('aria-pressed',b.dataset.pick===ui.pick));const g=root.querySelector('.go');if(g)g.disabled=false;
+    const pi=document.getElementById('price');if(pi&&!pi.value){const lp=lastPrice(ui.pick);if(lp){pi.value=lp;ui.price=lp;}}return;}
+  if(el.dataset.span){ui.span=el.dataset.span;render();return;}
+  if(el.dataset.shift){const a=parseD(ui.anchor),k=Number(el.dataset.shift);if(ui.span==='week')a.setDate(a.getDate()+7*k);else{a.setDate(1);a.setMonth(a.getMonth()+k);}ui.anchor=fmt(a);render();return;}
+  if(el.dataset.editp){const x=state.entries.find(z=>z.id===el.dataset.editp);ui.editp=el.dataset.editp;ui.ep=x&&x.p?String(x.p):'';render();return;}
+  if(el.dataset.savep){const x=state.entries.find(z=>z.id===el.dataset.savep);if(x){const v=parseInt(digits(ui.ep),10);x.p=v>0?v:null;state.v++;persist();}ui.editp=null;render();return;}
+  if(el.dataset.peel){const id=el.dataset.peel;
+    if(ui.armed===id){state.entries=state.entries.filter(x=>x.id!==id);state.v++;ui.armed=null;if(!byDate(ui.date).length)ui.mode=null;render();persist();}
+    else{ui.armed=id;render();}return;}
+  const a=el.dataset.act;
+  if(a==='close'){ui.mode=null;ui.armed=null;ui.editp=null;render();}
+  else if(a==='menu'){ui.msg='';ui.mode='menu';render();}
+  else if(a==='export'){exportData();}
+  else if(a==='stats'){const cur=new Date();ui.anchor=(vy===cur.getFullYear()&&vm===cur.getMonth())?todayStr():fmt(new Date(vy,vm,1));ui.mode='stats';render();}
+  else if(a==='today'){const d=new Date();vy=d.getFullYear();vm=d.getMonth();openAdd(todayStr());}
+  else if(a==='addhere'){openAdd(ui.date);}
+  else if(a==='save'&&ui.pick){
+    const id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+    const pv=parseInt(digits(ui.price),10);
+    state.entries.push({id,date:ui.date,s:ui.pick,mei:ui.mei.trim().slice(0,30),p:pv>0?pv:null,t:Date.now()});
+    state.v++;const [y,m]=ui.date.split('-').map(Number);vy=y;vm=m-1;
+    ui={...ui,mode:null,date:null,pick:null,mei:'',price:'',justAdded:id,armed:null};render();persist();
+  }
+});
+root.addEventListener('input',e=>{
+  if(e.target.id==='mei')ui.mei=e.target.value;
+  else if(e.target.id==='price'){const v=digits(e.target.value);if(v!==e.target.value)e.target.value=v;ui.price=v;}
+  else if(e.target.id==='ep'){const v=digits(e.target.value);if(v!==e.target.value)e.target.value=v;ui.ep=v;}
+});
+root.addEventListener('change',e=>{if(e.target.id==='imp'&&e.target.files&&e.target.files[0])importData(e.target.files[0]);});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ui.mode){ui.mode=null;ui.editp=null;render();}});
+render();
+})();
+</script></body></html>
